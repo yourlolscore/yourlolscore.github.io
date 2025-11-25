@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>멸망전 티어 점수 계산기</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+</style>
+</head>
+<body>
+<h2>멸망전 티어 점수 계산기</h2>
+<label>포지션</label>
+<select id="position">
+    <option value="0">탑</option>
+    <option value="1">정글</option>
+    <option value="2">미드</option>
+    <option value="3">원딜</option>
+    <option value="4">서폿</option>
+</select>
+<label>전시즌 티어</label>
+<select id="prevTier"></select>
+<label>역대 최고 티어</label>
+<select id="peakTier"></select>
+<label>현재 시즌 티어</label>
+<select id="curTier"></select>
+<button onclick="calc()">점수 계산하기</button>
+<div id="result"></div>
+<script>
+const tierScores = {
+    "다이아 이상": [37.7, 39.7, 40.6, 34.5, 36.1],
+    "에메1": [36.2, 38.2, 39.5, 33.0, 35.1],
+    "에메2": [34.7, 36.1, 38.1, 31.2, 34.0],
+    "에메3": [32.1, 33.7, 35.5, 28.9, 32.9],
+    "에메4": [30.4, 31.8, 33.9, 26.9, 31.7],
+    "플레1": [29.0, 29.8, 32.2, 25.1, 30.4],
+    "플레2": [27.2, 27.5, 29.8, 23.7, 29.0],
+    "플레3": [25.8, 25.6, 27.7, 22.3, 27.9],
+    "플레4": [24.7, 24.1, 25.6, 21.1, 26.8],
+    "골드1": [23.1, 22.5, 23.5, 19.9, 25.8],
+    "골드2": [22.1, 21.1, 20.8, 18.3, 24.1],
+    "골드3": [21.5, 19.8, 19.3, 17.2, 23.2],
+    "골드4": [20.7, 18.5, 17.8, 16.1, 22.3],
+    "실버1": [19.6, 17.1, 16.3, 14.9, 21.4],
+    "실버2": [18.0, 15.0, 14.5, 13.3, 19.8],
+    "실버3": [17.2, 14.0, 13.6, 12.5, 18.9],
+    "실버4": [16.4, 13.0, 12.7, 11.8, 18.0],
+    "브론즈1": [15.6, 12.0, 11.8, 11.2, 17.0],
+    "브론즈2": [14.8, 11.0, 10.9, 10.6, 16.0],
+    "브론즈3 이하": [14.0, 10.0, 10.0, 10.0, 15.0]
+};
+const tierList = Object.keys(tierScores);
+["prevTier","peakTier","curTier"].forEach(id=>{
+    const sel=document.getElementById(id);
+    tierList.forEach(t=>{
+        const o=document.createElement("option");
+        o.value=t; o.textContent=t; sel.appendChild(o);
+    });
+});
+function calc(){
+    const pos=Number(document.getElementById("position").value);
+    const prev=document.getElementById("prevTier").value;
+    const peak=document.getElementById("peakTier").value;
+    const cur=document.getElementById("curTier").value;
+    const avg=((tierScores[prev][pos]+tierScores[peak][pos]+tierScores[cur][pos])/3).toFixed(2);
+    document.getElementById("result").textContent="최종 점수: "+avg;
+}
+</script>
+</body>
+</html>
